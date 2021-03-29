@@ -1,5 +1,10 @@
 # Задания по СЯП
 
+## [Основы Языка Лисп](#1)
+## [Функции высших порядков](#2)
+
+# Основы Языка Лисп
+<a name="1"></a>
 ## 2. Определите функцию, возвращающую последний элемент списка.
 ```
 (DEFUN PRINTLASTELEMENT (x)
@@ -154,4 +159,125 @@
     )
 (print "Стало:")
 (print (DeleteAllProperties 'a))
+```
+
+# Функции высших порядков
+<a name="2"></a>
+## 1. Определите FUNCALL через функционал APPLY.
+
+```
+(defun -funcall (function &rest args) ;минусик для ранее определенных функций
+    (apply function args)
+    )
+
+(print (funcall '+ 1 2 3 4 5))
+```
+## 3. Определите функционал (APL-APPLY f x), который применяет каждую функцию fi списка
+
+```
+(f1 f2 ... fn)
+к соответствующему элементу списка
+x = (x1 x2 ... xn)
+и возвращает список, сформированный из результатов.
+
+(defun f1 (x)
+    (+ x 25)
+    )
+
+(defun f2 (x)
+    (apply '+ x)
+    )
+
+(defun APL-APPLY (f x)
+    (IF (NULL f)
+        nil
+        (CONS (funcall (car f) (car x)) (APL-APPLY (CDR f) (CDR x)) )
+        )
+    )
+
+(print (APL-APPLY '(f1 f1 f1 f2 f2) '(1 2 3 (1 2 3) (1 2 3 4))))
+```
+## 5. Определите функциональный предикат (НЕКОТОРЫй пред список), который истинен, когда, являющейся функциональным аргументом предикат пред истинен хотя бы для одного элемента списка список.
+```
+(defun f1 (x) ;если 0 то истина иначе ложь
+    (if (EQ x 0)
+        t
+        nil
+        )
+    )
+
+(defun -Some (f x)
+    (if (f (CAR x))
+        t
+        (Some f (CDR x)))
+    )
+;если есть ноль то истина иначе ложь
+(print (Some 'f1 '(3 1 2 3 6 5 1 7 8 9 3)))
+(print (Some 'f1 '(0 1 2 3 6 5 1 7 8 9 3)))
+(print (Some 'f1 '(3 1 2 3 6 5 1 7 8 9 0)))
+(print (Some 'f1 '(3 1 2 0 6 5 0 7 8 9 3)))
+```
+## 7. Определите фильтр (УДАЛИТь-ЕСЛИ-НЕ пред список), удаляющий из списка список все элементы, которые не обладают свойством, наличие которого проверяет предикат пред.
+```
+(setf (get 'a '2) "lol")
+(setf (get 'b '2) "kek")
+(setf (get 'c '3) "cheburek")
+(setf (get 'e '2) "cheburek")
+
+(defun f1 (x)
+    (IF (EQ (GET x '2) nil)
+        nil
+        t)
+    )
+
+(defun DeleteIfNot (f x) 
+    (COND ( (NULL x) nil )
+          ( (funcall f (CAR x)) (CONS (CAR x) (DeleteIfNot f (CDR x))) )
+          (t (DeleteIfNot f (CDR x)) )
+          )
+    )
+
+(print (DeleteIfNot 'f1 '(a b c e)) )
+```
+## 9. Напишите генератор порождения чисел Фибоначчи: 0, 1, 1, 2, 3, 5,
+```
+(let ( (x 1) (y 0) )
+     (defun GenerateFibonachy () (let ((temp x)) (setq x (+ x y) y temp)))
+     )
+
+
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+(print (funcall 'GenerateFibonachy))
+```
+## 11. Определите фукнционал МНОГОФУН, который использует функции, являющиеся аргументами, по следующей схеме: (МНОГОФУН ’(f g ... h) x) ? (LIST (f x) (g x) ... (h x)).
+```
+(defun f1 (x)
+    (sin x)
+    )
+(defun f2 (x)
+    (cos x)
+    )
+
+(defun Multifun (f x)
+      (COND ( (NULL f) nil )
+            ( t (CONS (funcall (CAR f) x) (Multifun (CDR f) x)) )
+             )
+    )
+
+(print (Multifun '(cos sin cos sin f1 f2) '1) )
+```
+## 13. Определите функцию, которая возвращает в качестве значения свое определение (лямбда-выражение).
+```
+(defun Request () (
+                   (lambda (x) (list 'defun 'Request () (list x (list 'quote x))))
+                   '(lambda (x)(list 'defun 'Request () (list x (list 'quote x))))
+                   )
+    )
+
+(print (Request))
 ```

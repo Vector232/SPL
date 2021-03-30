@@ -281,3 +281,11 @@ x = (x1 x2 ... xn)
 
 (print (Request))
 ```
+
+```
+(defun mb () 
+    (SYMBOL-FUNCTION 'mb)
+    )
+
+(print  (mb))
+```

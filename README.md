@@ -274,8 +274,8 @@ x = (x1 x2 ... xn)
 ## 13. Определите функцию, которая возвращает в качестве значения свое определение (лямбда-выражение).
 ```
 (defun Request () (
-                   (lambda (x) (list 'defun 'Request () (list x (list 'quote x))))
-                   '(lambda (x)(list 'defun 'Request () (list x (list 'quote x))))
+                   (lambda (x)  (list 'defun 'Request () (list x (list x))))
+                   '(lambda (x)  (list 'defun 'Request () (list x (list x))))
                    )
     )
 

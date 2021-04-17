@@ -306,4 +306,17 @@ main = print.fractalithation $ "(a b c d)"
 ```
 ## 20. Определите предикат НЕПЕРЕСЕКАЮЩИЕСЯ, проверяющий, что два множества не пересекаются, т.е. у них нет общих элементов.
 ```
+f [] _ = True
+f (h_x:t_x) y = let f2 = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                then False
+                                                else if t_y == []
+                                                    then True
+                                                    else f2 x_elem t_y
+                in if f2 h_x y
+                    then f t_x y
+                    else False
+                
+
+
+main = print (f ['a','b','c'] ['d','a','f'])
 ```

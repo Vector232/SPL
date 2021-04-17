@@ -294,13 +294,13 @@ x = (x1 x2 ... xn)
 # Haskell. Списки.
 ## 9. Определите функцию, которая обращает список (а b с) и разбивает его на уровни (((с) b) а).
 ```
-f [] = ""
-f (x:')':y) = x:')':y
-f (' ':t) = "" ++ f t
-f (')':t) = " )" ++ t
-f ('(':t) = " (" ++ f t
-f (h:t) = h : mod_tail
-    where mod_tail = " (" ++ (f t) ++ ")"
+fractalithation [] = ""
+fractalithation (x:')':y) = x:')':y
+fractalithation (' ':t) = "" ++ fractalithation t
+fractalithation (')':t) = " )" ++ t
+fractalithation ('(':t) = " (" ++ fractalithation t
+fractalithation (h:t) = h : mod_tail
+    where mod_tail = " (" ++ (fractalithation t) ++ ")"
 
-main = print.f $ "(a b c d)"
+main = print.fractalithation $ "(a b c d)"
 ```

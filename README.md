@@ -338,3 +338,17 @@ intersection x y = let f3 = \x_elem (h_y:t_y) -> if x_elem == h_y
 
 main = print (intersection ['d','b','c','f'] ['d','y','f'])
 ```
+## 22. Определите функцию ОБЪЕДИНЕНИЕ, формирующую обЪединение двух множеств
+```
+unification [] y = y
+unification (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                                then True
+                                                                else if t_y == [] 
+                                                                    then False
+                                                                    else search x_elem t_y
+                          in if search h_x y
+                                 then unification t_x y
+                                 else unification t_x (foldr (:) [h_x] y)
+
+main = print (unification ['a','b','c','d'] ['e','f','g','h','a']) -> "efghabcd"
+```

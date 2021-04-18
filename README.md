@@ -3,6 +3,7 @@
 ## [Основы Языка Лисп](#1)
 ## [Функции высших порядков](#2)
 ## [Haskell. Списки.](#3)
+## [Haskell. Теория кодирования.](#4)
 
 <a name="1"></a>
 # Основы Языка Лисп
@@ -307,36 +308,34 @@ main = print.fractalithation $ "(a b c d)"
 ## 20. Определите предикат НЕПЕРЕСЕКАЮЩИЕСЯ, проверяющий, что два множества не пересекаются, т.е. у них нет общих элементов.
 ```
 check_for_nonintersections [] _ = True
-check_for_nonintersections (h_x:t_x) y = let f2 = \x_elem (h_y:t_y) -> if x_elem == h_y
-                                                                             then False
-                                                                             else if t_y == []
-                                                                                    then True
-                                                                                    else f2 x_elem t_y
-                                          in if f2 h_x y
-                                                 then if t_x == []
-                                                        then True
-                                                        else check_for_nonintersections t_x y
-                                                 else False
-                
+check_for_nonintersections (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                                               then True
+                                                                               else if t_y == [] 
+                                                                                        then False
+                                                                                        else search x_elem t_y
+                                         in if search h_x y
+                                                then False
+                                                else check_for_nonintersections t_x y
+                               
 
-
-main = print (check_for_nonintersections ['a','b','c','f'] ['d','y','f'])
+main = do print (check_for_nonintersections ['a','b','c','d'] ['e','b','g','h','a']) -> False
+          print (check_for_nonintersections ['a','b','c','d'] ['e','f','g','h','j']) -> True
 ```
 ## 21. Определите функцию ПЕРЕСЕЧЕНИЕ, формирующую пересечение двух множеств, т.е. множество их их общих элементов.
 ```
-intersection :: String -> String -> String
-intersection x y = let f3 = \x_elem (h_y:t_y) -> if x_elem == h_y
-                                                     then True
-                                                     else if t_y == []
-                                                         then False
-                                                         else f3 x_elem t_y
-                   in let f2 = \x_elem -> if f3 x_elem y
-                                              then x_elem
-                                              else ' '
-                      in map f2 x
-                          
+intersection [] _ = ""
+intersection (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                                then True
+                                                                else if t_y == [] 
+                                                                    then False
+                                                                    else search x_elem t_y
+                          in if search h_x y
+                                 then (h_x:mod_tail)
+                                 else intersection t_x y
+                                     where mod_tail = intersection t_x y
+                                 
 
-main = print (intersection ['d','b','c','f'] ['d','y','f'])
+main = print (intersection ['a','b','c','d'] ['e','b','g','h','a']) -> "ab"
 ```
 ## 22. Определите функцию ОБЪЕДИНЕНИЕ, формирующую обЪединение двух множеств
 ```
@@ -352,3 +351,23 @@ unification (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
 
 main = print (unification ['a','b','c','d'] ['e','f','g','h','a']) -> "efghabcd"
 ```
+## 24. Определите функцию РАЗНОСТЬ, формирующую разность двух множеств, т.е. удаляющую из первого множества все общие со вторым множеством элементы
+```
+difference [] _ = ""
+difference (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                                then True
+                                                                else if t_y == [] 
+                                                                    then False
+                                                                    else search x_elem t_y
+                          in if search h_x y
+                                 then difference t_x y
+                                 else (h_x:mod_tail)
+                                     where mod_tail = difference t_x y
+
+main = print (difference ['a','b','c','d'] ['e','b','g','h','a']) -> "cd"
+```
+<a name="4"></a>
+# Haskell. Теория кодирования.
+
+
+

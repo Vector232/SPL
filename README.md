@@ -313,10 +313,28 @@ check_for_nonintersections (h_x:t_x) y = let f2 = \x_elem (h_y:t_y) -> if x_elem
                                                                                     then True
                                                                                     else f2 x_elem t_y
                                           in if f2 h_x y
-                                                 then check_for_nonintersections t_x y
+                                                 then if t_x == []
+                                                        then True
+                                                        else check_for_nonintersections t_x y
                                                  else False
                 
 
 
-main = print (f ['a','b','c'] ['d','a','f'])
+main = print (check_for_nonintersections ['a','b','c','f'] ['d','y','f'])
+```
+## 21. Определите функцию ПЕРЕСЕЧЕНИЕ, формирующую пересечение двух множеств, т.е. множество их их общих элементов.
+```
+intersection :: String -> String -> String
+intersection x y = let f3 = \x_elem (h_y:t_y) -> if x_elem == h_y
+                                                     then True
+                                                     else if t_y == []
+                                                         then False
+                                                         else f3 x_elem t_y
+                   in let f2 = \x_elem -> if f3 x_elem y
+                                              then x_elem
+                                              else ' '
+                      in map f2 x
+                          
+
+main = print (intersection ['d','b','c','f'] ['d','y','f'])
 ```

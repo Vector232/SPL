@@ -294,7 +294,7 @@ x = (x1 x2 ... xn)
 <a name="3"></a>
 # Haskell. Списки.
 ## 9. Определите функцию, которая список (а b с) разбивает на уровни (((с) b) а).
-```
+```Haskell
 fractalithation [] = ""
 fractalithation (x:')':y) = x:')':y
 fractalithation (' ':t) = "" ++ fractalithation t
@@ -306,7 +306,7 @@ fractalithation (h:t) = h : mod_tail
 main = print.fractalithation $ "(a b c d)"
 ```
 ## 20. Определите предикат НЕПЕРЕСЕКАЮЩИЕСЯ, проверяющий, что два множества не пересекаются, т.е. у них нет общих элементов.
-```
+```Haskell
 check_for_nonintersections [] _ = True
 check_for_nonintersections (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
                                                                                then True
@@ -322,7 +322,7 @@ main = do print (check_for_nonintersections ['a','b','c','d'] ['e','b','g','h','
           print (check_for_nonintersections ['a','b','c','d'] ['e','f','g','h','j']) -> True
 ```
 ## 21. Определите функцию ПЕРЕСЕЧЕНИЕ, формирующую пересечение двух множеств, т.е. множество их их общих элементов.
-```
+```Haskell
 intersection [] _ = ""
 intersection (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
                                                                 then True
@@ -338,7 +338,7 @@ intersection (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
 main = print (intersection ['a','b','c','d'] ['e','b','g','h','a']) -> "ab"
 ```
 ## 22. Определите функцию ОБЪЕДИНЕНИЕ, формирующую обЪединение двух множеств
-```
+```Haskell
 unification [] y = y
 unification (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
                                                                 then True
@@ -352,7 +352,7 @@ unification (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
 main = print (unification ['a','b','c','d'] ['e','f','g','h','a']) -> "efghabcd"
 ```
 ## 24. Определите функцию РАЗНОСТЬ, формирующую разность двух множеств, т.е. удаляющую из первого множества все общие со вторым множеством элементы
-```
+```Haskell
 difference [] _ = ""
 difference (h_x:t_x) y = let search = \x_elem (h_y:t_y) -> if x_elem == h_y
                                                                 then True
@@ -369,5 +369,15 @@ main = print (difference ['a','b','c','d'] ['e','b','g','h','a']) -> "cd"
 <a name="4"></a>
 # Haskell. Теория кодирования.
 
-
+## 1. Для заданного N построить код Грея.
+```Haskell
+f :: Double -> [String]
+f x = if x <= 2
+          then ["0", "1"]
+          else left ++ (reverse right)
+                where left = map (\a -> "0" ++ a) (f (x/2))
+                      right = map (\a -> "1" ++ a) (f (x/2))
+main = print (f 4) -> ["00","01","11","10"]
+main = print (f 5) -> ["000","001","011","010","110","111","101","100"]
+```
 
